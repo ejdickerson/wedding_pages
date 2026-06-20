@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Find Your Seat</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <style>
+        :root {
+            /* Minimalist color palette */
+            --bg-color: #F9FAFB;       /* Ultra-clean light gray */
+            --card-bg: #FFFFFF;        /* Pure white */
+            --text-main: #111827;      /* Deep charcoal/near-black */
+            --text-muted: #6B7280;     /* Sophisticated mid-gray */
+            --border-color: #E5E7EB;   /* Delicate light border */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased; /* Makes text look sharper on phones */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            margin-top: 8vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 0 0 8px 0;
+            letter-spacing: -0.03em; /* Tighter letter spacing for a modern look */
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        /* Sleek Search Icon */
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: #9CA3AF;
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 18px 18px 48px; /* Extra padding on left for the icon */
+            font-size: 1.05rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px; /* Smooth, modern curves */
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            -webkit-appearance: none;
+        }
+
+        input::placeholder {
+            color: #9CA3AF;
+            font-weight: 400;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--text-main);
+            /* Creates a modern halo effect when tapped */
+            box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.08);
+            transform: translateY(-1px);
+        }
+
+        input:disabled {
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        #results {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .guest-card {
+            background-color: var(--card-bg);
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            /* Fluid app-like animation */
+            animation: slideFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .guest-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+        }
+
+        .table-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .table-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Bold Table Badge */
+        .table-number {
+            background-color: var(--text-main);
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .message {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes slideFadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Find Your Seat</h1>
+        <p class="subtitle">Enter your name to locate your table</p>
+
+        <div class="search-wrapper">
+            <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search guest list..." disabled autocomplete="off" spellcheck="false">
+        </div>
+        
+        <div id="results">
+            <div id="statusMessage" class="message">Connecting to guest list...</div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. PASTE YOUR GOOGLE SHEET CSV LINK HERE ---
+        const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSfIWHAUCThYwgBwGJgMs_KoCxBkny0kI-lGpkkfN3pxiLs4ORbVZkDWw_N3FJNhsaytB-3pxx79Bnm/pub?gid=0&single=true&output=csv';
+
+        let guests = [];
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('results');
+        const statusMessage = document.getElementById('statusMessage');
+
+        const fetchUrl = GOOGLE_SHEET_URL + (GOOGLE_SHEET_URL.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
+
+        if (GOOGLE_SHEET_URL === 'YOUR_PUBLISHED_CSV_LINK_HERE') {
+            statusMessage.innerText = "Setup Required: Please paste your Google Sheet link in the code.";
+            statusMessage.style.color = "#DC2626"; // Modern red
+        } else {
+            Papa.parse(fetchUrl, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const data = results.data;
+                    guests = data.filter(row => row.Name && row.Name.trim() !== '');
+                    
+                    statusMessage.style.display = 'none';
+                    searchInput.disabled = false;
+                    searchInput.focus();
+                },
+                error: function(err) {
+                    statusMessage.innerText = "Failed to load guest list. Please check your internet connection.";
+                    statusMessage.style.color = "#DC2626";
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            resultsContainer.innerHTML = ''; 
+
+            if (query.length === 0) return;
+
+            const matches = guests.filter(guest => guest.Name.toLowerCase().includes(query));
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = '<div class="message">No guest found. Try just a first or last name.</div>';
+                return;
+            }
+
+            matches.forEach((guest, index) => {
+                const card = document.createElement('div');
+                card.className = 'guest-card';
+                // This gives a beautiful cascading delay if multiple names pop up!
+                card.style.animationDelay = `${index * 0.05}s`;
+                
+                card.innerHTML = `
+                    <div class="guest-name">${guest.Name}</div>
+                    <div class="table-info">
+                        <div class="table-label">Table</div>
+                        <div class="table-number">${guest.Table || '-'}</div>
+                    </div>
+                `;
+                resultsContainer.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>
