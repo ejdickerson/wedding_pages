@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How We Made It!</title>
+    <!-- Tailwind CSS for sleek modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Elegant Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .serif-title { font-family: 'Cormorant Garamond', serif; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-900 selection:bg-stone-200">
+
+    <!-- Header Section -->
+    <header class="max-w-4xl mx-auto text-center pt-20 pb-12 px-4">
+        <span class="text-xs uppercase tracking-widest text-stone-400 font-medium block mb-3">Welcome to our Production Line</span>
+        <h1 class="serif-title text-5xl md:text-7xl font-light tracking-wide text-stone-800 mb-4">Ed, Christina & The Helpers</h1>
+        <p class="text-stone-500 font-light tracking-wide text-sm md:text-base">Captured moments • Established May 1, 2026</p>
+        <div class="w-12 h-[1px] bg-stone-300 mx-auto mt-8"></div>
+    </header>
+
+    <!-- Photo Gallery Collage (Masonry Layout) -->
+    <main class="max-w-6xl mx-auto px-4 pb-24">
+        <!-- 
+          columns-1 for mobile, columns-2 for tablet, columns-3 for desktop 
+          gap-6 controls the horizontal space between columns
+        -->
+        <div class="columns-1 sm:columns-2 md:columns-3 gap-6">
+            
+            <!-- Photo Item 1 -->
+            <!-- 
+              Added: break-inside-avoid (prevents splitting across columns)
+              Added: mb-6 (adds vertical spacing to match the horizontal gap-6)
+              Removed: aspect-[3/4] (allows images to be their natural heights)
+            -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <!-- Changed h-full to h-auto to respect natural image ratio -->
+                <img src="img/img_1.jpg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 2 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_2.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 3 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_3.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 4 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_4.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 5 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_5.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 6 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_6.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 7 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_7.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 8 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_8.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 9 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_9.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 10 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_10.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Photo Item 11 -->
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openLightbox(this)">
+                <img src="img/img_11.jpeg" 
+                     alt="Coaster Production Line" 
+                     class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 border-t border-stone-200 text-stone-400 text-xs tracking-wider">
+        Thank you to all our helpers, we couldn't have done it without you!
+    </footer>
+
+    <!-- Modern Lightbox Modal (Hidden by default) -->
+    <div id="lightbox" class="fixed inset-0 bg-stone-950/95 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out" onclick="closeLightbox()">
+        <!-- Close Button -->
+        <button class="absolute top-6 right-6 text-stone-400 hover:text-white transition-colors text-sm uppercase tracking-widest focus:outline-none">Close [×]</button>
+        <!-- Large Image -->
+        <div class="max-w-4xl max-h-[85vh] p-4 flex flex-col items-center">
+            <img id="lightbox-img" src="" alt="Enlarged view" class="max-w-full max-h-[80vh] object-contain shadow-2xl">
+            <p id="lightbox-caption" class="text-stone-300 font-light mt-4 text-sm tracking-wide"></p>
+        </div>
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            lightboxImg.src = img.src;
+            lightboxCaption.textContent = img.alt;
+            
+            // Show lightbox with a smooth fade-in
+            lightbox.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeLightbox() {
+            // Hide lightbox
+            lightbox.classList.add('opacity-0', 'pointer-events-none');
+            // Reset image source after fade out to prevent flashing
+            setTimeout(() => { lightboxImg.src = ''; }, 300);
+        }
+
+        // Close lightbox if 'Escape' key is pressed
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
