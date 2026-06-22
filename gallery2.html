@@ -128,6 +128,19 @@
                 <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
 
+            <div class="group overflow-hidden bg-stone-200 cursor-pointer relative break-inside-avoid mb-6" onclick="openVideoLightbox('YOUR_VIDEO_ID', 'Wedding Highlights')">
+    
+            <img src="https://img.youtube.com/vi/4bjLiEcINc0/maxresdefault.jpg" 
+                 alt="Wedding Highlights" 
+                 class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+            
+            <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
+                <svg class="w-16 h-16 text-white opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </div>
+            </div>
+
         </div>
     </main>
 
@@ -137,12 +150,17 @@
     </footer>
 
     <!-- Modern Lightbox Modal (Hidden by default) -->
-    <div id="lightbox" class="fixed inset-0 bg-stone-950/95 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out" onclick="closeLightbox()">
-        <!-- Close Button -->
-        <button class="absolute top-6 right-6 text-stone-400 hover:text-white transition-colors text-sm uppercase tracking-widest focus:outline-none">Close [×]</button>
-        <!-- Large Image -->
-        <div class="max-w-4xl max-h-[85vh] p-4 flex flex-col items-center">
-            <img id="lightbox-img" src="" alt="Enlarged view" class="max-w-full max-h-[80vh] object-contain shadow-2xl">
+    <div id="lightbox" class="fixed inset-0 bg-stone-950/95 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out" onclick="closeLightbox(event)">
+        <button onclick="closeLightbox(event)" class="absolute top-6 right-6 text-stone-400 hover:text-white transition-colors text-sm uppercase tracking-widest focus:outline-none z-50">Close [×]</button>
+        
+        <div class="w-full max-w-5xl p-4 flex flex-col items-center">
+            
+            <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[80vh] object-contain shadow-2xl hidden">
+            
+            <div id="lightbox-video-container" class="w-full aspect-video hidden shadow-2xl rounded-sm overflow-hidden bg-black">
+                <iframe id="lightbox-video" src="" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
             <p id="lightbox-caption" class="text-stone-300 font-light mt-4 text-sm tracking-wide"></p>
         </div>
     </div>
@@ -151,22 +169,48 @@
     <script>
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxVideoContainer = document.getElementById('lightbox-video-container');
+        const lightboxVideo = document.getElementById('lightbox-video');
         const lightboxCaption = document.getElementById('lightbox-caption');
 
+        // Handles standard photos
         function openLightbox(element) {
             const img = element.querySelector('img');
+            
+            // Hide video, show image
+            lightboxVideoContainer.classList.add('hidden');
+            lightboxImg.classList.remove('hidden');
+            
             lightboxImg.src = img.src;
             lightboxCaption.textContent = img.alt;
             
-            // Show lightbox with a smooth fade-in
             lightbox.classList.remove('opacity-0', 'pointer-events-none');
         }
 
-        function closeLightbox() {
-            // Hide lightbox
+        // Handles YouTube videos
+        function openVideoLightbox(videoId, title) {
+            // Hide image, show video
+            lightboxImg.classList.add('hidden');
+            lightboxVideoContainer.classList.remove('hidden');
+            
+            // Adding ?autoplay=1 ensures it plays automatically when opened
+            lightboxVideo.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            lightboxCaption.textContent = title;
+            
+            lightbox.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeLightbox(event) {
+            // Prevent closing if clicking directly on the video player
+            if (event && event.target === lightboxVideoContainer) return;
+
             lightbox.classList.add('opacity-0', 'pointer-events-none');
-            // Reset image source after fade out to prevent flashing
-            setTimeout(() => { lightboxImg.src = ''; }, 300);
+            
+            // Wait for fade out, then clear sources to stop video audio
+            setTimeout(() => { 
+                lightboxImg.src = ''; 
+                lightboxVideo.src = ''; 
+            }, 300);
         }
 
         // Close lightbox if 'Escape' key is pressed
